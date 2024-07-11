@@ -1,0 +1,49 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  name      String
+  cpf       String  @unique
+  email     String  @unique
+  password  String
+  cep       String
+  city      String
+  state     String
+  neighborhood String
+  street    String
+  number    String
+  points    Int     @default(0)
+  schedules Schedule[]
+}
+
+model Schedule {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  type        String
+  date        DateTime
+  time        String
+  notes       String?
+  createdAt   DateTime @default(now())
+}
+
+model Establishment {
+  id        Int      @id @default(autoincrement())
+  name      String
+  category  String
+  address   String
+  city      String
+  state     String
+  zipcode   String
+  phone     String
+  hours     String
+  description String
+}
+
